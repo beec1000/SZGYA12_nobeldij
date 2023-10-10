@@ -34,9 +34,16 @@ namespace nobeldij
             Console.WriteLine("Kérem adja meg egy ország kódját: ");
             var orK = Console.ReadLine();
 
-            var f5 = dijazottak.Where(k => k.Orszag == orK);
+            var f5 = dijazottak.Where(k => k.Orszag == orK).ToList();
 
-            Console.WriteLine($"A megadott ország díjazottja: \nNév: {} \nÉv: {} \nSz/H: {}");
+            if (f5.Count == 0) Console.WriteLine("\t A megadott országból nem volt díjazott");
+            else if (f5.Count == 1)
+            {
+                Console.WriteLine($"A megadott ország díjazottja: \n\tNév: {f5[0].Nev} \n\tÉv: {f5[0].Ev} \n\tSz/H: {f5[0].SzHStr}");
+            }
+            else Console.WriteLine($"\tA megadott országból {f5.Count} díjazott volt.");
+
+            
 
         }
     }
