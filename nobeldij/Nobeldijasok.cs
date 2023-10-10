@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,20 +6,29 @@ namespace nobeldij
 {
     class Nobeldijasok
     {
-        public int DijazasEve { get; set; }
+        public int Ev { get; set; }
         public string Nev { get; set; }
-        public int SzuletesHalalozas { get; set; }
-        public string Orszagkod { get; set; }
+        public string SzHStr { get; set; }
 
-        public Nobeldijasok(string r)
+        public (int Szuletes, int? Halal) SzH { get; set; }
+
+        public string Orszag { get; set; }
+
+
+
+        public Nobeldijasok(string s)
         {
-            string[] v = r.Split(';', '-');
-            this.DijazasEve = int.Parse(v[0]);
+            string[] v = s.Split(';');
+            this.Ev = int.Parse(v[0]);
             this.Nev = v[1];
-            this.SzuletesHalalozas = int.Parse(v[2]);
-            this.Orszagkod = v[3];
+            this.SzHStr = v[2];
+
+            var szhv = v[2].Split('-');
+            SzH = (Szuletes: int.Parse(szhv[0]),
+                   Halal: szhv[1].Length == 0 ? 0 : int.Parse(szhv[1]));
+
+            this.Orszag = v[3];
         }
-
-
     }
 }
+
