@@ -10,6 +10,7 @@ namespace nobeldij
     {
         static void Main(string[] args)
         {
+
             List<Nobeldijasok> dijazottak = new List<Nobeldijasok>();
 
             using var sr = new StreamReader(@"..\..\..\src\orvosi_nobeldijak.txt",
@@ -34,7 +35,8 @@ namespace nobeldij
             Console.WriteLine("Kérem adja meg egy ország kódját: ");
             var orK = Console.ReadLine();
 
-            var f5 = dijazottak.Where(k => k.Orszag == orK).ToList();
+            var f5 = dijazottak.Where(k => k.Orszag == orK)
+                               .ToList();
 
             if (f5.Count == 0) Console.WriteLine("\t A megadott országból nem volt díjazott");
             else if (f5.Count == 1)
@@ -43,7 +45,19 @@ namespace nobeldij
             }
             else Console.WriteLine($"\tA megadott országból {f5.Count} díjazott volt.");
 
-            
+
+            Console.WriteLine("6. feladat: Statisztika");
+            var f6 = dijazottak.GroupBy(d => d.Orszag)
+                               .ToDictionary(k => k.Key, v => v.Count()).Where(kvp => kvp.Value > 5);
+
+            foreach (var kvp in f6)
+            {
+                Console.WriteLine($"\t{kvp.Key,3} - {kvp.Value,2} fő");
+            }
+
+            var f7 = dijazottak.Where(d => d.SzH.Halal != 0)
+                               .Average(d => d.SzH.Halal - d.SzH.Szuletes);
+            Console.WriteLine($"7. feladat: A keresett átlag: {f7:0.0}év");
 
         }
     }
